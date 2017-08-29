@@ -6,7 +6,7 @@
 /*   By: jgalvani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 17:21:07 by jgalvani          #+#    #+#             */
-/*   Updated: 2017/08/29 19:02:01 by jgalvani         ###   ########.fr       */
+/*   Updated: 2017/08/29 22:54:16 by jgalvani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ enum
 	ACCESS = 0b00100000,
 	STATUS = 0b01000000,
 	NO_SORT = 0b10000000,
-	FULL_TIME = 1 << 8
+	FULL_TIME = 1 << 8,
+	FIRST = 1 << 9
 };
 
 typedef union		u_flag
@@ -103,7 +104,7 @@ typedef struct		s_max
 
 void				get_dir_loc(int ac, char **av, t_u16 flag, int i);
 void				get_rec_dir_loc(t_rec *d_list, t_u16 flag);
-void				print_dir(char *location, t_u16 flag, bool boolean);
+void				print_dir(char *location, t_u16 flag);
 void				get_ctime(t_dir *curr, t_info *dir_info, t_u16 flag);
 
 t_u16				set_flag(char *str);

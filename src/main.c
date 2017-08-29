@@ -6,7 +6,7 @@
 /*   By: jgalvani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 17:18:43 by jgalvani          #+#    #+#             */
-/*   Updated: 2017/08/29 19:04:47 by jgalvani         ###   ########.fr       */
+/*   Updated: 2017/08/29 22:54:54 by jgalvani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int			main(int ac, char **av)
 	i = 1;
 	flag = 0;
 	if (ac == 1)
-		print_dir("./", flag, 0);
+		print_dir("./", flag);
 	else if (ac > 1)
 	{
 		while (i < ac && av[i][0] == '-')
@@ -82,7 +82,7 @@ int			main(int ac, char **av)
 			i++;
 		}
 		if (i == ac)
-			print_dir("./", flag, 0);
+			print_dir("./", flag);
 		else
 			get_dir_loc(ac, av, flag, i);
 	}

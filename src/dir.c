@@ -6,7 +6,7 @@
 /*   By: jgalvani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 17:33:06 by jgalvani          #+#    #+#             */
-/*   Updated: 2017/08/29 18:45:18 by jgalvani         ###   ########.fr       */
+/*   Updated: 2017/08/29 23:00:40 by jgalvani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,18 @@ void		get_rec_dir_loc(t_rec *d_list, t_u16 flag)
 	}
 	while (d_list)
 	{
+		if (flag & FIRST)
+			write(1, "\n", 1);
 		previous_dir = d_list;
 		if (!(flag & LARGE) || readlink(d_list->new_loc, buf, 1) == -1)
-			print_dir(d_list->new_loc, flag, 1);
+		{
+			ft_printf("%s%s:%s\n", GREEN, d_list->new_loc, STOP);
+			flag |= FIRST;
+			print_dir(d_list->new_loc, flag);
+		}
 		free(d_list->new_loc);
 		d_list = d_list->next;
 		free(previous_dir);
-		if (d_list)
-			write(1, "\n", 1);
 	}
 }
 
@@ -50,7 +54,8 @@ void		single_print(char *name, t_u16 flag)
 	}
 	if (curr.dir != NULL)
 		closedir(curr.dir);
-	print_dir(name, flag, 0);
+	if (!(flag & LARGE) || readlink(name, buf, 1) == -1)
+		print_dir(name, flag);
 }
 
 void		get_dir_loc(int ac, char **av, t_u16 flag, int i)
@@ -97,7 +102,7 @@ t_rec		*print_loc(t_dir *curr, t_rec *d_list, t_u16 flag, char *loc)
 	return (rec_list);
 }
 
-void		print_dir(char *location, t_u16 flag, bool boolean)
+void		print_dir(char *location, t_u16 flag)
 {
 	t_dir	curr;
 	t_rec	*d_list;
@@ -105,10 +110,9 @@ void		print_dir(char *location, t_u16 flag, bool boolean)
 
 	d_list = NULL;
 	rec_list = NULL;
+	flag |= FIRST;
 	if ((curr.dir = opendir(location)) > 0)
 	{
-		if (flag & RECURSIVE || boolean)
-			ft_printf("%s%s:%s\n", GREEN, location, STOP);
 		if (flag & LARGE)
 			rec_list = print_stat(&curr, flag, location);
 		else if (!(flag & LARGE))
