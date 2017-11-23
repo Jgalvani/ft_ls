@@ -6,7 +6,7 @@
 /*   By: jgalvani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 17:21:07 by jgalvani          #+#    #+#             */
-/*   Updated: 2017/08/29 22:54:16 by jgalvani         ###   ########.fr       */
+/*   Updated: 2017/09/04 17:25:32 by jgalvani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct		s_info
 	t_u8			color;
 	char			*lpath;
 	time_t			time;
+	off_t			major;
 	struct s_info	*next;
 }					t_info;
 
@@ -99,6 +100,7 @@ typedef struct		s_max
 	int				owner;
 	int				group;
 	int				size;
+	int				major;
 	size_t			blocks;
 }					t_max;
 
@@ -129,10 +131,10 @@ void				get_max(t_max *max, t_info *info);
 void				get_mtime(t_dir *curr, t_info *dir_info, t_u16 flag);
 void				get_atime(t_dir *curr, t_info *dir_info, t_u16 flag);
 
-t_rec				*save_argument(char *location, t_rec *d_list);
+t_rec				*save_argument(char *location, t_rec *d_list, t_u16 flag);
 t_info				*info(t_info *d_info, t_dir *curr, char *loc, t_u16 fl);
-t_rec				*save_rec(char *location, char *d_name, t_rec *d_list);
-t_rec				*save_dir(t_dir *curr, t_rec *d_list);
+t_rec				*save_rec(char *loc, char *name, t_rec *d_lst, t_u16 flag);
+t_rec				*save_dir(t_dir *cur, t_rec *d_lst, t_u16 flag, char *loc);
 
 void				swap_info(t_info *next, t_info *dir_info);
 void				swap_rec(t_rec *next, t_rec *d_list);
@@ -158,5 +160,6 @@ void				print_reg(char *name, t_u16 flag);
 void				print_rec_reg(t_rec *d_list, t_u16 flag);
 void				print_reg_list(t_max *max, t_info *dir_info);
 void				get_type(t_dir *curr, t_info *dir_info, char *loc);
+time_t				get_rec_time(t_rec *d_list, t_u16 flag);
 
 #endif

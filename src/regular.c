@@ -6,7 +6,7 @@
 /*   By: jgalvani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 15:48:01 by jgalvani          #+#    #+#             */
-/*   Updated: 2017/08/29 17:33:06 by jgalvani         ###   ########.fr       */
+/*   Updated: 2017/09/04 17:24:37 by jgalvani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	print_rec_reg(t_rec *d_list, t_u16 flag)
 	t_max	max;
 
 	dir_info = NULL;
-	max = (t_max){0, 0, 0, 0, 0};
+	max = (t_max){0, 0, 0, 0, 0, 0};
 	prev = d_list;
 	dir_info = get_reg_list(d_list, dir_info, flag);
 	get_max(&max, dir_info);

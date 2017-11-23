@@ -6,7 +6,7 @@
 /*   By: jgalvani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/13 18:29:37 by jgalvani          #+#    #+#             */
-/*   Updated: 2017/08/29 18:49:57 by jgalvani         ###   ########.fr       */
+/*   Updated: 2017/09/04 17:23:23 by jgalvani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ t_rec	*print_stat(t_dir *curr, t_u16 flag, char *loc)
 {
 	t_info			*dir_info;
 	t_max			max;
-	t_rec			*rec_list;
+	t_rec			*r_lst;
 
-	max = (t_max){0, 0, 0, 0, 0};
+	max = (t_max){0, 0, 0, 0, 0, 0};
 	dir_info = NULL;
-	rec_list = NULL;
+	r_lst = NULL;
 	while ((curr->dirent = readdir(curr->dir)))
 	{
 		if ((!(flag & ALL) && curr->dirent->d_name[0] != '.') || ((flag & ALL)))
@@ -97,11 +97,11 @@ t_rec	*print_stat(t_dir *curr, t_u16 flag, char *loc)
 					((ft_strcmp(curr->dirent->d_name, ".") &&
 					ft_strcmp(curr->dirent->d_name, "..") && flag & ALL) ||
 					(curr->dirent->d_name[0] != '.' && !(flag & ALL))))
-					rec_list = save_rec(loc, curr->dirent->d_name, rec_list);
+					r_lst = save_rec(loc, curr->dirent->d_name, r_lst, flag);
 			}
 		}
 	}
 	if (dir_info)
 		print_info(dir_info, &max, flag);
-	return (rec_list);
+	return (r_lst);
 }

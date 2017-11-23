@@ -6,7 +6,7 @@
 /*   By: jgalvani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/13 18:32:13 by jgalvani          #+#    #+#             */
-/*   Updated: 2017/08/29 19:02:51 by jgalvani         ###   ########.fr       */
+/*   Updated: 2017/09/04 17:42:12 by jgalvani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,16 @@ void	tld(t_dir *curr, t_info *dir_info, t_u16 flag, char *loc)
 		get_mtime(curr, dir_info, flag);
 	get_type(curr, dir_info, loc);
 	dir_info->link = curr->stat.st_nlink;
+	if (dir_info->type != 'c' && dir_info->type != 'b')
+	{
+		dir_info->size = curr->stat.st_size;
+		dir_info->major = 0;
+	}
+	else
+	{
+		dir_info->size = minor(curr->stat.st_rdev);
+		dir_info->major = major(curr->stat.st_rdev);
+	}
 }
 
 void	get_max(t_max *max, t_info *dir_info)
@@ -84,6 +94,8 @@ void	get_max(t_max *max, t_info *dir_info)
 			max->link = len;
 		if ((len = ft_countmax(dir_info->size)) > max->size)
 			max->size = len;
+		if ((len = ft_countmax(dir_info->major)) > max->major)
+			max->major = len;
 		if ((len = ft_strlen(dir_info->owner)) > max->owner)
 			max->owner = len;
 		if ((len = ft_strlen(dir_info->group)) > max->group)

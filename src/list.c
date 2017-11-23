@@ -6,19 +6,20 @@
 /*   By: jgalvani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/13 18:30:53 by jgalvani          #+#    #+#             */
-/*   Updated: 2017/08/29 17:31:32 by jgalvani         ###   ########.fr       */
+/*   Updated: 2017/09/04 17:11:44 by jgalvani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-t_rec	*save_argument(char *location, t_rec *d_list)
+t_rec	*save_argument(char *location, t_rec *d_list, t_u16 flag)
 {
 	t_rec	*new_dir;
 	t_rec	*begin_dir;
 
 	new_dir = (t_rec*)malloc(sizeof(t_rec) * 1);
 	new_dir->new_loc = ft_strdup(location);
+	new_dir->time = get_rec_time(new_dir, flag);
 	new_dir->next = NULL;
 	if (!d_list)
 		return (new_dir);
@@ -32,14 +33,17 @@ t_rec	*save_argument(char *location, t_rec *d_list)
 	return (begin_dir);
 }
 
-t_rec	*save_dir(t_dir *curr, t_rec *d_list)
+t_rec	*save_dir(t_dir *curr, t_rec *d_list, t_u16 flag, char *loc)
 {
 	t_rec	*new_dir;
 	t_rec	*begin_dir;
 
 	new_dir = (t_rec*)malloc(sizeof(t_rec) * 1);
-	new_dir->new_loc = ft_strdup(curr->dirent->d_name);
+	new_dir->new_loc = get_new_loc(loc, curr->dirent->d_name);
 	new_dir->color = assign_color(curr->dirent->d_type);
+	new_dir->time = get_rec_time(new_dir, flag);
+	free(new_dir->new_loc);
+	new_dir->new_loc = ft_strdup(curr->dirent->d_name);
 	new_dir->next = NULL;
 	if (!d_list)
 		return (new_dir);
@@ -53,13 +57,14 @@ t_rec	*save_dir(t_dir *curr, t_rec *d_list)
 	return (begin_dir);
 }
 
-t_rec	*save_rec(char *location, char *d_name, t_rec *d_list)
+t_rec	*save_rec(char *loc, char *d_name, t_rec *d_list, t_u16 flag)
 {
 	t_rec	*new_dir;
 	t_rec	*begin_dir;
 
 	new_dir = (t_rec*)malloc(sizeof(t_rec) * 1);
-	new_dir->new_loc = get_new_loc(location, d_name);
+	new_dir->new_loc = get_new_loc(loc, d_name);
+	new_dir->time = get_rec_time(new_dir, flag);
 	new_dir->next = NULL;
 	if (!d_list)
 		return (new_dir);
@@ -104,7 +109,6 @@ t_info	*info(t_info *d_info, t_dir *curr, char *loc, t_u16 flag)
 	tld(curr, new_info, flag, loc);
 	new_info = get_owner_group_attr(new_info, curr, loc);
 	new_info->perm = get_perm(curr);
-	new_info->size = curr->stat.st_size;
 	new_info->blocks = curr->stat.st_blocks;
 	new_info->name = ft_strdup(curr->dirent->d_name);
 	new_info->color = assign_color(curr->dirent->d_type);

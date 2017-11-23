@@ -6,7 +6,7 @@
 /*   By: jgalvani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 17:33:06 by jgalvani          #+#    #+#             */
-/*   Updated: 2017/08/29 23:00:40 by jgalvani         ###   ########.fr       */
+/*   Updated: 2017/08/31 16:43:33 by jgalvani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void		get_dir_loc(int ac, char **av, t_u16 flag, int i)
 	{
 		while (i < ac)
 		{
-			d_list = save_argument(av[i], d_list);
+			d_list = save_argument(av[i], d_list, flag);
 			i++;
 		}
 		get_rec_dir_loc(d_list, flag);
@@ -88,12 +88,12 @@ t_rec		*print_loc(t_dir *curr, t_rec *d_list, t_u16 flag, char *loc)
 		{
 			if ((!(flag & ALL) && curr->dirent->d_name[0] != '.') ||
 					((flag & ALL)))
-				d_list = save_dir(curr, d_list);
+				d_list = save_dir(curr, d_list, flag, loc);
 			if ((flag & RECURSIVE && curr->dirent->d_type == DT_DIR) &&
 					((ft_strcmp(curr->dirent->d_name, ".") &&
 					ft_strcmp(curr->dirent->d_name, "..") && flag & ALL) ||
 					(curr->dirent->d_name[0] != '.' && !(flag & ALL))))
-				rec_list = save_rec(loc, curr->dirent->d_name, rec_list);
+				rec_list = save_rec(loc, curr->dirent->d_name, rec_list, flag);
 		}
 	}
 	if (!(flag & NO_SORT))

@@ -6,7 +6,7 @@
 /*   By: jgalvani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 21:56:18 by jgalvani          #+#    #+#             */
-/*   Updated: 2017/08/29 17:31:12 by jgalvani         ###   ########.fr       */
+/*   Updated: 2017/09/04 17:24:27 by jgalvani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	print_rec_link(t_rec *d_list, t_u16 flag, char *buf)
 	t_max	max;
 
 	dir_info = NULL;
-	max = (t_max){0, 0, 0, 0, 0};
+	max = (t_max){0, 0, 0, 0, 0, 0};
 	prev = d_list;
 	while (d_list)
 	{
